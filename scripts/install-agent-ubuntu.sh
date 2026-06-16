@@ -53,17 +53,17 @@ apt install -y openuem-agent
 
 # create certificate files from variables
 echo "Deploying Agent Certificate"
-echo "$AGENT_CERT_DATA" | sudo tee /etc/openuem-agent/certs/agent.cer > /dev/null
+echo "$AGENT_CERT_DATA" | sudo tee /etc/openuem-agent/certificates/agent.cer > /dev/null
 
 echo "Deploying Agent Private Key"
-echo "$AGENT_KEY_DATA" | sudo tee /etc/openuem-agent/certs/agent.key > /dev/null
+echo "$AGENT_KEY_DATA" | sudo tee /etc/openuem-agent/certificates/agent.key > /dev/null
 
 echo "Deploying Certificate Authority (CA) Certificate"
-echo "$CA_CERT_DATA" | sudo tee /etc/openuem-agent/certs/ca.cer > /dev/null
+echo "$CA_CERT_DATA" | sudo tee /etc/openuem-agent/certificates/ca.cer > /dev/null
 
 # Only allow root to read
-sudo chmod 600 /etc/openuem-agent/certs/agent.key
-sudo chmod 644 /etc/openuem-agent/certs/*.cer
+sudo chmod 600 /etc/openuem-agent/certificates/agent.key
+sudo chmod 644 /etc/openuem-agent/certificates/*.cer
 
 
 echo "create config file entries from variables"
@@ -75,9 +75,9 @@ sudo sed -i "s|^#\?SFTPPort=.*|SFTPPort=${SFTP_PORT}|" "$INI_FILE"
 sudo sed -i "s|^#\?VNCProxyPort=.*|VNCProxyPort=${VNC_PORT}|" "$INI_FILE"
 
 # compare paths from config with variables
-sudo sed -i "s|^#\?AgentCert=.*|AgentCert=/etc/openuem-agent/certs/agent.cer|" "$INI_FILE"
-sudo sed -i "s|^#\?AgentKey=.*|AgentKey=/etc/openuem-agent/certs/agent.key|" "$INI_FILE"
-sudo sed -i "s|^#\?CACert=.*|CACert=/etc/openuem-agent/certs/ca.cer|" "$INI_FILE"
+sudo sed -i "s|^#\?AgentCert=.*|AgentCert=/etc/openuem-agent/certificates/agent.cer|" "$INI_FILE"
+sudo sed -i "s|^#\?AgentKey=.*|AgentKey=/etc/openuem-agent/certificates/agent.key|" "$INI_FILE"
+sudo sed -i "s|^#\?CACert=.*|CACert=/etc/openuem-agent/certificates/ca.cer|" "$INI_FILE"
 
 #enable the service
 echo "Starting OpenUEM Agent..."
